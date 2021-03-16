@@ -1,0 +1,87 @@
+
+pipenv install django~= version
+pipenv shell
+
+git init
+git remote add origin https://github.com/DataMonki/projectname.git
+
+
+(Base) python django-admin startproject mb
+(Base} python manage.py startapp appname
+
+
+(Base)mkdir Templates && touch templates/base.html
+(Base) vim mb/settings.py
+
+	->add to Installed_Apps section
+	--> appname.apps.AppnameConfig
+
+	-> add to Templates section
+	-->Dir[os.path.join(BASE_DIR,'templates'],
+
+
+
+
+
+(Base)vim appname/models.py
+
+	class ClassName(models.Model):
+		FieldA = models.?Field()
+		FieldB = models.?Field()
+
+		def __ str__(self):
+			return f"{self.text[:50]}.."
+
+(Base) python manage.py makemigrations appname
+(Base) python manage.py migrate
+
+(Base) vim appname/views.py
+
+	from django.views.generic import ListView, TemplateView
+
+
+	from django.http import HttpResponce
+	____________________________________
+	def functionName(request):
+		return HttpResponce('Hello World')
+
+
+
+	from django.views.generic import TemplateView
+	_____________________________________________
+	class ClassName(TemplateView):
+		template_name ='file.html'
+
+
+
+	from django.views.generic import ListView
+	_________________________________________
+	class ClassName(ListView):
+		model = Post
+		template_name = 'file.html'
+		context_object_name = 'unique_name'
+
+
+
+(Base) touch appname/urls.py && vim appname/urls.py
+
+
+
+	from .views import (ClassName or functionName) # this is the Object
+
+	urlpatterns = [
+		path('urlkey', import object.fun/class.as_view(),name='keyname'),
+
+	]
+
+
+
+(Base) vim mb/urls.py
+
+	from django.urls import path,include
+
+	urlpatterns = [
+		path('admin/',admin.site.urls),
+		path('urlkey', include('appname.urls'))
+	]
+
