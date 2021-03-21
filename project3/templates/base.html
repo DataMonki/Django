@@ -1,0 +1,26 @@
+<!--templates/base.html-->
+<!DOCTYPE html>
+
+{%load static%}
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <title>Django blog</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        <link rel="stylesheet" herf="https://fonts.googleapis.com/css?family=Source+Sans+pro:400">
+    </head>
+    <body>
+        <header>
+            <h1><a href="{% url 'home' %}">Django Blog</a></h1>
+        </header>
+       
+        <div>
+            {%block content%}
+            {%endblock content%}
+        </div>
+        <script src="" async defer></script>
+    </body>
+</html>

@@ -1,82 +1,12 @@
 
-pipenv install django~= version
-pipenv shell
-
-git init
-git remote add origin https://github.com/DataMonki/projectname.git
-
-
-(Base) python django-admin startproject mb
-(Base} python manage.py startapp appname
-
-
-(Base)mkdir Templates && touch templates/base.html
-(Base) vim mb/settings.py
-
-	->add to Installed_Apps section
-	--> appname.apps.AppnameConfig
-
-	-> add to Templates section
-	-->Dir[os.path.join(BASE_DIR,'templates'],
-
-
-
-
-
-(Base)vim appname/models.py
-
-	class ClassName(models.Model):
-		FieldA = models.?Field()
-		FieldB = models.?Field()
-
-		def __ str__(self):
-			return f"{self.text[:50]}.."
-
-(Base) python manage.py makemigrations appname
-(Base) python manage.py migrate
-
-(Base) vim appname/views.py
-
-	from django.views.generic import ListView, TemplateView
-
-
-	from django.http import HttpResponce
-	____________________________________
-	def functionName(request):
-		return HttpResponce('Hello World')
-
-
-
-	from django.views.generic import TemplateView
-	_____________________________________________
-	class ClassName(TemplateView):
-		template_name ='file.html'
-
-
-
-	from django.views.generic import ListView
-	_________________________________________
-	class ClassName(ListView):
-		model = Post
-		template_name = 'file.html'
-		context_object_name = 'unique_name'
-
-
-
-(Base) touch appname/urls.py && vim appname/urls.py
-
-
 
 	from .views import (ClassName or functionName) # this is the Object
 
-	urlpatterns = [
-		path('urlkey', import object.fun/class.as_view(),name='keyname'),
-
-	]
+	
 
 
 
-(Base) vim mb/urls.py
+(Base) vim base/urls.py
 
 	from django.urls import path,include
 
@@ -85,3 +15,104 @@ git remote add origin https://github.com/DataMonki/projectname.git
 		path('urlkey', include('appname.urls'))
 	]
 
+
+git init
+git remote add origin https://github.com/DataMonki/projectname.git
+pipenv install django~=3.1.0
+pipenv shell
+django-admin startproject base .
+python manage.py startapp app
+python manage.py migrate
+
+>To base/settings.py 
+-> installed_apps add 
+--"app.apps.AppConfig",
+-> TEMPLATES
+-- DIRS: [BASE_DIR /"templates"]
+-- STATICFILES_DIRS = [BASE_DIR / "static",] (need to add this to settings)
+
+>mkdir templates && touch templates/base.html
+-toch templates/home.html
+
+>mkdir static
+-mkdir static/css
+-touch static/css/base.css
+
+> In app .models.py folder create model class
+-class ClassName(models.Model):
+		FieldA = models.?Field()
+		FieldB = models.?Field()
+
+		def __ str__(self):
+			return f"{self.text[:50]}.."
+
+> in app/admin.py import model
+- admin.site.regirster(class_modelame)
+
+--when we made changes to models.py--
+python manage.py makemigrations app
+python manage.py migrate app
+--when we made changes to models.py--
+
+python manage.py createsuperuser
+python manage.py runserver
+
+
+
+> app/views.py
+-from django.views.generic import ListView, DetialView
+-from django.views.generic import TemplateView  
+-from .models import Post
+
+-> define class in views
+	from django.views.generic import TemplateView
+	_____________________________________________
+	class ClassName(TemplateView):
+		template_name ='file.html'
+		context_object_name = 'unique_name' ()
+
+
+	from django.views.generic import ListView
+	_________________________________________
+	class ClassName(ListView):
+		model = Post
+		template_name = 'file.html'
+		context_object_name = 'unique_name'
+	_________________________________________
+	class ClassName(DetailView):
+		model = Post
+		template_name = 'file.html'
+		context_object_name = 'unique_name' (or it will be called object)
+
+
+->touch app/urls.py
+- from django.urls import path
+- from .views import classObject
+
+urlpatterns points to .views.py
+
+urlpatterns = [
+	('pointerName',classObject.as.view(),name="tagName"),
+]
+
+->base.urls.py
+--from django.urls import path, include
+
+--urlpatterns = [
+	path('admin/', admin.site.urls),
+	path('pointerName', include("app.urls")),
+
+]
+
+> html page <><a href="{% url 'tagName' %}">Django Blog</a></>
+> base.html
+{%load static%}
+<link rel="stylesheet" href="{% static 'css/base.css' %}">
+--{%block content%}
+--{%endblock content%}
+
+{% extends 'base.html' %}
+
+--{%block content%}
+
+--{%endblock content%}
